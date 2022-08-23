@@ -1,0 +1,28 @@
+.group{
+    background: rgb(255, 255, 255);
+    width: 180px;
+    margin: 0 auto 20px;
+    display: grid;
+    grid-template-columns: 100px 80px;
+    border-radius: 15px;
+}
+
+
+input,select{
+    background: none;
+    border:0;
+    color:rgb(0, 0, 0);
+    outline: 0;
+    border-radius: 15px;
+}
+input{
+    padding-left: 10px;
+}
+select {
+    appearance: none;
+    color: rgb(0, 0, 0);
+    border: 1px solid rgb(0, 0, 0);
+    line-height: 1;
+    padding: 0.65em 2.5em 0.55em 0.75em;
+    background-color: white;
+  }
