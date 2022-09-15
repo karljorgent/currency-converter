@@ -1,0 +1,12 @@
+As a user I can see a list of currency exchange rates for various currencies
+    - When I land on the site, I see a list of available currencies
+    - Each currency has an exchange rate
+As an admin, I can Sign In
+    [x] - When I land on the site, I see a "Sign In" button
+    [ ] - When I click on it, I am presented with a dialog box with username and password fields and a "Sign In" and "Cancel" buttons 
+    [ ] - When I click on "Cancel", the dialog box disappears
+    [ ] - When I click on "Sign In" and username or password is not entered, I get an error message "Invalid credentials"
+
+As an admin, I can change the currency name and rate
+As an admin, I can add new currency
+As an admin, I can delete existing currency

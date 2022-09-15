@@ -2,6 +2,9 @@ import './App.css';
 import CurrencyInput from "./CurrencyInput";
 import {useState, useEffect} from "react";
 import axios from "axios";
+import SignIn from './SignIn';
+import CurrencyList from './CurrencyList';
+import SignInBox from './SignInBox';
 
 function App() {
 
@@ -17,6 +20,7 @@ function App() {
         setRates(response.data.rates);
       })
   }, []);
+  console.log(rates)
 
   useEffect(() => {
     if (!!rates) {
@@ -57,6 +61,7 @@ function App() {
   return (
     <div>
       <h1>Currency Converter</h1>
+      <SignIn/>
       <CurrencyInput
         onAmountChange={handleAmount1Change}
         onCurrencyChange={handleCurrency1Change}
@@ -69,6 +74,10 @@ function App() {
         currencies={Object.keys(rates)}
         amount={amount2}
         currency={currency2} />
+      <CurrencyList
+        currencies={Object.keys(rates)}
+        values={rates[values]}
+        />
     </div>
   );
 }

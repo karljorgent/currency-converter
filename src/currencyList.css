@@ -1,0 +1,14 @@
+.list{
+    list-style-type: none;
+    position: fixed;
+    width: 100%
+}
+
+li{
+    background: rgb(183, 61, 61);
+    width: 80%;
+    margin: 0px 100px 0px 100px;
+    padding: 0px;
+    border-radius: 15px;
+    font-size: 25px;
+}
