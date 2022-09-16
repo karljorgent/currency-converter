@@ -1,10 +1,10 @@
-import logo from './logo.svg';
 import './App.css';
 import {useEffect, useState} from "react";
-import useFetch from "react-fetch-hook";
+import CurrencyPrices from "./CurrencyPrices";
 
 function App() {
 
+    // getting currency rates from api.js
     const [rates, setRates] = useState([]);
 
     useEffect(() => {
@@ -16,11 +16,16 @@ function App() {
               })
     })
 
-
-
     return (
         <div className="App">
-            <h1>lol</h1>
+            <h1>Currency rates</h1>
+            {rates.map(cur => (
+                <CurrencyPrices
+                    name={cur.name}
+                    bid={cur.bid}
+                    ask={cur.ask}
+                />
+            ))}
         </div>
     );
 }

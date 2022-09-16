@@ -9,6 +9,9 @@ Install project dependencies:
 ### `npm install`
 
 ## Usage
+Start api server:
+### `nodemon api.js`
+
 Start the development server:
 ### `npm start`
 

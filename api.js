@@ -2,7 +2,12 @@ const express = require('express')
 const cors = require('cors')
 const app = express()
 const port = 8800
-const currencies = [{name:'EURUSD', bid:1.001, ask:1.000}]
+
+const currencies = [
+    {name:'EURUSD', bid:1.001, ask:1.000},
+    {name:'GBPUSD', bid:1.1381, ask:1.1379},
+    {name:'CADUSD', bid:0.7524, ask:0.7523}
+]
 
 app.use(cors())
 
