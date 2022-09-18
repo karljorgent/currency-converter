@@ -18,6 +18,7 @@ function App() {
 
     return (
         <div className="App">
+            <button type='button'>Log In</button>
             <h1>Currency rates</h1>
             {rates.map(cur => (
                 <CurrencyPrices

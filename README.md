@@ -11,6 +11,7 @@ Install project dependencies:
 ## Usage
 Start api server:
 ### `nodemon api.js`
+### `node api.js`
 
 Start the development server:
 ### `npm start`
