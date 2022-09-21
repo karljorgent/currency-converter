@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 
 function App() {
 
-    // getting currency rates from api.js
+    // getting currency rates from db.json
     const [rates, setRates] = useState([]);
 
     useEffect(() => {
-          fetch('http://localhost:8800/currencies')
+          fetch('http://localhost:8080/currencies')
               .then(response => {return response.json()})
               .then(response => {
                   setRates(response)

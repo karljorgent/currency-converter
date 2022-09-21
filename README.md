@@ -10,8 +10,7 @@ Install project dependencies:
 
 ## Usage
 Start api server:
-### `nodemon api.js`
-### `node api.js`
+### `json-server --watch db.json --port 8080`
 
 Start the development server:
 ### `npm start`

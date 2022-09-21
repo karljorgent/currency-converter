@@ -9,6 +9,12 @@ const currencies = [
     {name:'CADUSD', bid:0.7524, ask:0.7523}
 ]
 
+setTimeout(changeCurrencies, 1000)
+
+function changeCurrencies() {
+
+}
+
 app.use(cors())
 
 app.get('/currencies', (req, res) => {
