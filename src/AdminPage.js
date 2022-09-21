@@ -1,5 +1,6 @@
 import CurrencyPrices from "./CurrencyPrices";
 import {useEffect, useState} from "react";
+import CreateCurrencies from "./components/CreateCurrencies";
 
 function AdminPage() {
 
@@ -15,13 +16,23 @@ function AdminPage() {
             })
     })
 
-    const addCurrency = () => {
-        console.log("aljo")
+    const addCurrency = (event) => {
+        event.preventDefault();
+        CreateCurrencies(event.target.form[0].value, event.target.form[1].value, event.target.form[2].value)
+
     }
 
     return (
         <div className="AdminStuff">
-            <button type='button' onClick={addCurrency}>Add currency</button>
+            <form>
+                Name:
+                <input type="text" name="name" placeholder="name" />
+                Bid:
+                <input type="text" name="name" placeholder="bid" />
+                Ask:
+                <input type="text" name="name" placeholder="ask" />
+                <input type="submit" value="Add Currency" onClick={addCurrency}/>
+            </form>
             <h1>Currency rates</h1>
             {rates.map(cur => (
                 <CurrencyPrices

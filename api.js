@@ -11,6 +11,13 @@ const currencies = [
 
 setTimeout(changeCurrencies, 1000)
 
+function randomIntFromInterval(min, max) { // min and max included
+    return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+const rndInt = randomIntFromInterval(0.9, 1.1)
+console.log(rndInt)
+
 function changeCurrencies() {
 
 }
