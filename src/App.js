@@ -30,11 +30,13 @@ function App() {
             <button type='button' onClick={routeChange}>Log In</button>
             <h1>Currency rates</h1>
             {rates.map(cur => (
-                <CurrencyPrices
-                    name={cur.name}
-                    bid={cur.bid}
-                    ask={cur.ask}
-                />
+                <div className="currencyBox" key={cur.id}>
+                    <CurrencyPrices
+                        name={cur.name}
+                        bid={cur.bid}
+                        ask={cur.ask}
+                    />
+                </div>
             ))}
         </div>
     );

@@ -1,7 +1,8 @@
 import CurrencyPrices from "./CurrencyPrices";
 import {useEffect, useState} from "react";
-import EditCurrencyPage from "./EditCurrencyPage";
-import {useNavigate} from "react-router-dom";
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
+import EditCurrency from "./EditCurrency";
 
 function AdminPage() {
 
@@ -31,24 +32,20 @@ function AdminPage() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
         }).then(() => {
-            console.log('data sent', event)
+            console.log('data sent')
         })
     }
 
-    // edit currency in db.json
-    const editCurrency = (event) => {
-        event.preventDefault()
 
-
-
-        console.log(event.target.id)
-    }
     // delete currency from db.json
     const deleteCurrency = (event) => {
         event.preventDefault();
         fetch(`http://localhost:8080/currencies/${event.target.id}`, {
             method: 'DELETE',
-            headers: { "Content-Type": "application/json" }})
+            headers: { "Content-Type": "application/json" }
+        }).then(() => {
+            console.log('data deleted')
+        })
 
     }
 
@@ -56,11 +53,11 @@ function AdminPage() {
         <div className="AdminStuff">
             <form>
                 Name:
-                <input type="text" name="name" placeholder="name" />
+                <input type="text" placeholder="name" />
                 Bid:
-                <input type="text" name="name" placeholder="bid" />
+                <input type="text" placeholder="bid" />
                 Ask:
-                <input type="text" name="name" placeholder="ask" />
+                <input type="text" placeholder="ask" />
                 <input type="submit" value="Add Currency" onClick={addCurrency}/>
             </form>
             <h1>Currency rates</h1>
@@ -72,7 +69,23 @@ function AdminPage() {
                         bid={cur.bid}
                         ask={cur.ask}
                     />
-                    <input type="submit" value="Edit Currency" id={ cur.id } onClick={editCurrency}/>
+                    <Popup trigger={<button> Edit Currency </button>} position="right">
+                        <div>
+                            <CurrencyPrices
+                                name={cur.name}
+                                bid={cur.bid}
+                                ask={cur.ask}
+                            />
+                            <h2>New Prices</h2>
+                            <EditCurrency
+                                name={cur.name}
+                                bid={cur.bid}
+                                ask={cur.ask}
+                                id={cur.id}
+                            />
+
+                        </div>
+                    </Popup>
                     <input type="submit" value="Delete Currency" id={ cur.id } onClick={deleteCurrency}/>
                 </div>
             ))}
