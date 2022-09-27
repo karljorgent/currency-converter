@@ -6,6 +6,7 @@ import App from './App';
 import AdminPage from "./AdminPage";
 import LogIn from "./LogIn";
 import reportWebVitals from './reportWebVitals';
+import EditCurrencyPage from "./EditCurrencyPage";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,6 +15,7 @@ root.render(
             <Route path="/" element={<App />} />
             <Route path="login" element={<LogIn />} />
             <Route path="kH@xp&69co@Yj9NLjnQQRfGmYGLdTSQ4dzHBQ&or" element={<AdminPage />} />
+            <Route path="editcurrency" element={<EditCurrencyPage />} />
         </Routes>
     </BrowserRouter>
 );

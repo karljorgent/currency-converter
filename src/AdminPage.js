@@ -1,5 +1,7 @@
 import CurrencyPrices from "./CurrencyPrices";
 import {useEffect, useState} from "react";
+import EditCurrencyPage from "./EditCurrencyPage";
+import {useNavigate} from "react-router-dom";
 
 function AdminPage() {
 
@@ -15,6 +17,7 @@ function AdminPage() {
             })
     })
 
+    // add currency into db.json
     const addCurrency = (event) => {
         event.preventDefault();
         const name = event.target.form[0].value
@@ -23,14 +26,30 @@ function AdminPage() {
 
         const data = { name, bid, ask}
 
-        // event.target.form[0].value, event.target.form[1].value, event.target.form[2].value
         fetch('http://localhost:8080/currencies', {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
         }).then(() => {
-            console.log('data sent')
+            console.log('data sent', event)
         })
+    }
+
+    // edit currency in db.json
+    const editCurrency = (event) => {
+        event.preventDefault()
+
+
+
+        console.log(event.target.id)
+    }
+    // delete currency from db.json
+    const deleteCurrency = (event) => {
+        event.preventDefault();
+        fetch(`http://localhost:8080/currencies/${event.target.id}`, {
+            method: 'DELETE',
+            headers: { "Content-Type": "application/json" }})
+
     }
 
     return (
@@ -48,10 +67,13 @@ function AdminPage() {
             {rates.map(cur => (
                 <div className="currencyBox" key={ cur.id }>
                     <CurrencyPrices
+
                         name={cur.name}
                         bid={cur.bid}
                         ask={cur.ask}
                     />
+                    <input type="submit" value="Edit Currency" id={ cur.id } onClick={editCurrency}/>
+                    <input type="submit" value="Delete Currency" id={ cur.id } onClick={deleteCurrency}/>
                 </div>
             ))}
         </div>
