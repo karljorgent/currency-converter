@@ -1,7 +1,28 @@
 {
   "currencies": [
-    {"name": "EURUSD", "bid": 1.001, "ask":1.000},
-    {"name": "GBPUSD", "bid": 1.1381, "ask":1.1379},
-    {"name": "CADUSD", "bid": 0.7524, "ask":0.7523}
+    {
+      "name": "EURUSD",
+      "bid": 1.001,
+      "ask": 1,
+      "id": 1
+    },
+    {
+      "name": "GBPUSD",
+      "bid": 1.1381,
+      "ask": 1.1379,
+      "id": 2
+    },
+    {
+      "name": "CADUSD",
+      "bid": 0.7524,
+      "ask": 0.7523,
+      "id": 3
+    },
+    {
+      "name": "awdawd",
+      "bid": "123123",
+      "ask": "123123",
+      "id": 4
+    }
   ]
 }

@@ -1,6 +1,5 @@
 import CurrencyPrices from "./CurrencyPrices";
 import {useEffect, useState} from "react";
-import CreateCurrencies from "./components/CreateCurrencies";
 
 function AdminPage() {
 
@@ -18,8 +17,20 @@ function AdminPage() {
 
     const addCurrency = (event) => {
         event.preventDefault();
-        CreateCurrencies(event.target.form[0].value, event.target.form[1].value, event.target.form[2].value)
+        const name = event.target.form[0].value
+        const bid = event.target.form[1].value
+        const ask = event.target.form[2].value
 
+        const data = { name, bid, ask}
+
+        // event.target.form[0].value, event.target.form[1].value, event.target.form[2].value
+        fetch('http://localhost:8080/currencies', {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        }).then(() => {
+            console.log('data sent')
+        })
     }
 
     return (
@@ -35,11 +46,13 @@ function AdminPage() {
             </form>
             <h1>Currency rates</h1>
             {rates.map(cur => (
-                <CurrencyPrices
-                    name={cur.name}
-                    bid={cur.bid}
-                    ask={cur.ask}
-                />
+                <div className="currencyBox" key={ cur.id }>
+                    <CurrencyPrices
+                        name={cur.name}
+                        bid={cur.bid}
+                        ask={cur.ask}
+                    />
+                </div>
             ))}
         </div>
     )
