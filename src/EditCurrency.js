@@ -1,4 +1,7 @@
 import {useState} from "react";
+import io from "socket.io-client";
+
+const socket = io.connect("http://localhost:3001");
 
 function EditCurrency(props) {
 
@@ -24,6 +27,8 @@ function EditCurrency(props) {
             console.log(data)
         })
         console.log(event.target.id)
+        socket.emit("refresh_rates");
+
     }
 
     return(
