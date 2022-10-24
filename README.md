@@ -15,6 +15,9 @@ Start api server:
 Start the development server:
 ### `npm start`
 
+Start socket.io:
+### `node server.js`
+
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\

@@ -1,48 +1,52 @@
-import { useEffect, useState } from "react";
-import CurrencyPrices from "./CurrencyPrices";
-import { useNavigate } from "react-router-dom";
-import io from "socket.io-client";
+import { useEffect, useState } from 'react';
+import CurrencyPrices from './CurrencyPrices';
+import { useNavigate } from 'react-router-dom';
+import io from 'socket.io-client';
 
-const socket = io.connect("http://localhost:3001");
-
+const socket = io.connect('http://localhost:3001');
 
 function App() {
-
-    const fetchCurrencies = () => {
-        fetch("http://localhost:8080/currencies")
-            .then((response) => {
-              return response.json();
-            })
-            .then((response) => {
-              setRates(response);
-            });
-      }
-
+    const dataFromLocal = JSON.parse(localStorage.getItem('rates'));
+    const [jsonStatus, setJsonStatus] = useState(false);
     // getting currency rates from db.json
     const [rates, setRates] = useState([]);
 
+    const fetchCurrencies = () => {
+        fetch('http://localhost:8080/currencies')
+            .then((response) => {
+                return response.json();
+            })
+            .then((response) => {
+                setRates(response);
+                localStorage.setItem('rates', JSON.stringify(response));
+                setJsonStatus(true);
+            });
+    };
+
     useEffect(() => {
-        fetchCurrencies()
-        socket.on("recive_rates", () => {
-          fetchCurrencies()
+        setRates(dataFromLocal);
+        fetchCurrencies();
+        socket.on('recive_rates', () => {
+            fetchCurrencies();
         });
-      }, [socket]);
+    }, [socket]);
 
     // redirect to login page
 
     let navigate = useNavigate();
-    const routeChange = () =>{
+    const routeChange = () => {
         let path = `login`;
         navigate(path);
-    }
-
-
+    };
 
     return (
         <div className="App">
-            <button type='button' onClick={routeChange}>Log In</button>
+            <button type="button" onClick={routeChange}>
+                Log In
+            </button>
             <h1>Currency rates</h1>
-            {rates.map(cur => (
+            {!jsonStatus && <h6>Data may be inaccurate</h6>}
+            {rates.map((cur) => (
                 <div className="currencyBox" key={cur.id}>
                     <CurrencyPrices
                         name={cur.name}
