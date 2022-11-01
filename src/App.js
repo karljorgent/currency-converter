@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import CurrencyPrices from './CurrencyPrices';
 import { useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
+import { useGoogleOneTapLogin } from 'react-google-one-tap-login';
+import e from 'cors';
 
 const socket = io.connect('http://localhost:3001');
 
@@ -39,11 +41,23 @@ function App() {
         navigate(path);
     };
 
+    // google login
+    useGoogleOneTapLogin({
+        onSuccess: (res) => console.log(res),
+        onError: (e) => console.log(e),
+
+        googleAccountConfigs: {
+            client_id:
+                '558442234950-r3e3k6js2j5lvggl8nbeurmuji3001u6.apps.googleusercontent.com',
+        },
+    });
+
     return (
         <div className="App">
             <button type="button" onClick={routeChange}>
                 Log In
             </button>
+
             <h1>Currency rates</h1>
             {!jsonStatus && <h6>Data may be inaccurate</h6>}
             {rates.map((cur) => (
