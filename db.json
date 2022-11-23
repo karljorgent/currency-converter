@@ -1,28 +1,54 @@
 {
-  "currencies": [
-    {
-      "name": "EURUSD",
-      "bid": "1.002",
-      "ask": "1",
-      "id": 1
-    },
-    {
-      "id": 2,
-      "name": "GBPUSD",
-      "bid": 1.1381,
-      "ask": 1.1379
-    },
-    {
-      "id": 3,
-      "name": "CADUSD",
-      "bid": 0.7524,
-      "ask": 0.7523
-    },
-    {
-      "name": "M&M",
-      "bid": "99999999",
-      "ask": "9999999",
-      "id": 4
-    }
-  ]
+    "currencies": [
+        {
+            "name": "EURUSD",
+            "bid": "1.002",
+            "ask": "1",
+            "id": 1
+        },
+        {
+            "id": 2,
+            "name": "GBPUSD",
+            "bid": 1.1381,
+            "ask": 1.1379
+        },
+        {
+            "id": 3,
+            "name": "CADUSD",
+            "bid": 0.7524,
+            "ask": 0.7523
+        },
+        {
+            "name": "M&M",
+            "bid": 99999999,
+            "ask": 9999999,
+            "id": 4
+        }
+    ],
+    "users": [
+        {
+            "id": 1,
+            "username": "axel",
+            "password": "axel",
+            "admin": true
+        },
+        {
+            "id": 2,
+            "username": "jorgen",
+            "password": "jorgen",
+            "admin": true
+        },
+        {
+            "id": 3,
+            "username": "volli",
+            "password": "volli",
+            "admin": false
+        },
+        {
+            "id": 4,
+            "username": "dog",
+            "password": "dog",
+            "admin": false
+        }
+    ]
 }

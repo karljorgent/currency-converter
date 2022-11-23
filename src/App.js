@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import CurrencyPrices from './CurrencyPrices';
+import AdminPage from './AdminPage';
 import { useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
-import { useGoogleOneTapLogin } from 'react-google-one-tap-login';
-import e from 'cors';
 
 const socket = io.connect('http://localhost:3001');
 
 function App() {
     const dataFromLocal = JSON.parse(localStorage.getItem('rates'));
     const [jsonStatus, setJsonStatus] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
     // getting currency rates from db.json
     const [rates, setRates] = useState([]);
 
@@ -25,9 +25,21 @@ function App() {
             });
     };
 
+    const fetchAdmin = () => {
+        fetch('http://localhost:7777')
+            .then((response) => {
+                return response.json();
+            })
+            .then((response) => {
+                setIsAdmin(response);
+                localStorage.setItem('admin', JSON.stringify(response));
+            });
+    };
+
     useEffect(() => {
         setRates(dataFromLocal);
         fetchCurrencies();
+        fetchAdmin();
         socket.on('recive_rates', () => {
             fetchCurrencies();
         });
@@ -41,36 +53,25 @@ function App() {
         navigate(path);
     };
 
-    // google login
-    useGoogleOneTapLogin({
-        onSuccess: (res) => console.log(res),
-        onError: (e) => console.log(e),
+    function renderHomePage() {
+        return (
+            <div className="App">
+                <button type="button" onClick={routeChange}>
+                    Log In
+                </button>
 
-        googleAccountConfigs: {
-            client_id:
-                '558442234950-r3e3k6js2j5lvggl8nbeurmuji3001u6.apps.googleusercontent.com',
-        },
-    });
+                <h1>Currency rates</h1>
+                {!jsonStatus && <h6>Data may be inaccurate</h6>}
+                {rates.map((cur) => (
+                    <div className="currencyBox" key={cur.id}>
+                        <CurrencyPrices name={cur.name} bid={cur.bid} ask={cur.ask} />
+                    </div>
+                ))}
+            </div>
+        );
+    }
 
-    return (
-        <div className="App">
-            <button type="button" onClick={routeChange}>
-                Log In
-            </button>
-
-            <h1>Currency rates</h1>
-            {!jsonStatus && <h6>Data may be inaccurate</h6>}
-            {rates.map((cur) => (
-                <div className="currencyBox" key={cur.id}>
-                    <CurrencyPrices
-                        name={cur.name}
-                        bid={cur.bid}
-                        ask={cur.ask}
-                    />
-                </div>
-            ))}
-        </div>
-    );
+    return isAdmin ? <AdminPage /> : renderHomePage();
 }
 
 export default App;
