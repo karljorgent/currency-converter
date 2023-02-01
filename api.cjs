@@ -4,6 +4,10 @@ const cors = require("cors");
 const db = require("./database.cjs");
 const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
+const swaggerUi = require('swagger-ui-express');
+YAML = require('yamljs');
+const swaggerDocument = YAML.load('swagger.yaml');
+
 
 dotenv.config();
 
@@ -25,6 +29,8 @@ function authenticateToken(req, res, next) {
 	});
 }
 
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.use(express.json());
 
 app.use(
@@ -34,12 +40,15 @@ app.use(
 	})
 );
 
+// Currencies
+
+// get all currencies
 app.get("/currencies", (req, res) => {
 	var sql = "select * from currencies";
 	var params = [];
 	db.all(sql, params, (err, rows) => {
 		if (err) {
-			res.status(400).json({ error: err.message });
+			res.status(400).json({ error: err });
 			return;
 		}
 		res.json({
@@ -49,12 +58,33 @@ app.get("/currencies", (req, res) => {
 	});
 });
 
+// create a new currency
+app.post("/currencies", authenticateToken, (req, res) => {
+	// check that data is given
+	if (!req.body.name || !req.body.bid || !req.body.ask) {
+		res.status(400).json({ error: "Missing data" });
+		return;
+	}
+	const sql = "insert into currencies (name, bid, ask) values (?,?,?)";
+	const params = [req.body.name, req.body.bid, req.body.ask];
+	db.all(sql, params, (err) => {
+		if (err) {
+			res.status(400).json({ error: err.message });
+			return;
+		}
+		res.status(201).json({
+			message: `Currency '${req.body.name}' created`,
+		});
+	});
+});
+
 // Users
 
+// create a new user
 app.post("/users/create", (req, res) => {
 	var sql = "insert into users (username, password) values (?,?)";
 	var params = [req.body.username, req.body.password];
-	db.all(sql, params, (err, rows) => {
+	db.all(sql, params, (err) => {
 		if (err) {
 			res.status(400).json({ error: err.message });
 			return;
@@ -71,41 +101,20 @@ app.post("/users/login", (req, res) => {
 	db.all(sql, params, (err, rows) => {
 		if (err) {
 			res.status(400).json({ error: err.message });
-			return;
-		} else if (rows.length == 0) {
+
+		} else if (rows.length === 0) {
 			res.status(400).json({ error: "User not found" });
-			return;
+
 		} else {
 			res.json({
 				message: "success",
 				token: generateAccessToken(rows[0].id),
-				admin: rows[0].id == 1,
+				admin: rows[0].id === 1,
 			});
 		}
 	});
 });
 
-app.get("/users/read/all", (req, res) => {
-	var sql = "select * from users";
-	var params = [];
-	db.all(sql, params, (err, rows) => {
-		if (err) {
-			res.status(400).json({ error: err.message });
-			return;
-		}
-		res.json({
-			message: "success",
-			data: rows,
-		});
-	});
-});
-
-app.get("/", authenticateToken, (req, res) => {
-	res.json({
-		message: "success",
-		token: req.token,
-	});
-});
 
 app.listen(process.env.API_PORT, () =>
 	console.log(`http://localhost:${process.env.API_PORT}`)

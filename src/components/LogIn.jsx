@@ -22,18 +22,19 @@ export default function LogIn() {
 			.then((response) => response.json())
 			.then((data) => {
 				localStorage.setItem("token", data.token);
-				if (data.admin === true) {
-					navigate("/admin");
-				} else {
+				if (data) {
+					console.log(data.message === "success");
 					navigate("/");
+				} else {
+					alert("Incorrect username or password");
 				}
 			});
 	};
 	return (
 		<div className="log-in">
 			<h1>Log In</h1>
-			<form className="log-up">
-				<label>
+			<form>
+				<div className="username">
 					Username:
 					<input
 						type="text"
@@ -41,6 +42,8 @@ export default function LogIn() {
 							setUsername(event.target.value);
 						}}
 					/>
+				</div>
+				<div className="password">
 					Password:
 					<input
 						type="password"
@@ -48,7 +51,8 @@ export default function LogIn() {
 							setPassword(event.target.value);
 						}}
 					/>
-				</label>
+				</div>
+
 				<input
 					type="submit"
 					value="Submit"
@@ -56,8 +60,7 @@ export default function LogIn() {
 				/>
 				<input
 					type="submit"
-					value="Back"
-					onClick={() => navigate("/")}
+					value="Cancel"
 				/>
 			</form>
 		</div>

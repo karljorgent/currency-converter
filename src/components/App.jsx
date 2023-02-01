@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
+import Popup from "reactjs-popup";
+import CreateCurrency from "./CreateCurrency";
 import "./css/App.css";
 import Currency from "./Currency.jsx";
+import LogIn from "./LogIn";
+import SignUp from "./SignUp";
 
 function App() {
 	const [currencies, setCurrencies] = useState([]);
+	const [isAdmin, setIsAdmin] = useState(false);
 
 	useEffect(() => {
 		fetchCurrency();
+		if (localStorage.getItem("token")) {
+			setIsAdmin(true);
+		}
 	}, []);
 
 	const fetchCurrency = async () => {
@@ -22,19 +30,39 @@ function App() {
 			.catch((err) => console.error("error:" + err));
 	};
 
+	const renderUser = () => {
+		return (
+			<div>
+				<Popup trigger={<button>Log In</button>} position="bottom left">
+					<LogIn />
+				</Popup>
+				<Popup
+					trigger={<button>Sign Up</button>}
+					position="bottom left"
+				>
+					<SignUp />
+				</Popup>
+			</div>
+		)}
+	
+	const renderAdmin = () => {
+		return (
+			<div>
+				<Popup
+			trigger={<button>Add New Currency</button>}
+			position="bottom left"
+		>
+			<CreateCurrency />
+		</Popup>
+		</div>
+		)}
+
 	return (
 		<div className="App">
 			<nav>
 				<h1 className="logo">Currency Converter</h1>
-				<a className="nav-btn" href="/">
-					Home
-				</a>
-				<a className="nav-btn" href="/login">
-					Log In
-				</a>
-				<a className="nav-btn" href="/signup">
-					Sign Up
-				</a>
+				{isAdmin ? renderAdmin() : renderUser()}
+				<br />
 			</nav>
 			<br />
 			<div className="Currencies">

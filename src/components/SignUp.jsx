@@ -32,22 +32,26 @@ export default function SignUp() {
 	return (
 		<div className="sign-up">
 			<h1>Sign Up</h1>
-			<form className="sign-up">
+			<form>
 				<label>
-					Username:
-					<input
-						type="text"
-						onChange={(event) => {
-							setUsername(event.target.value);
-						}}
-					/>
-					Password:
-					<input
-						type="password"
-						onChange={(event) => {
-							setPassword(event.target.value);
-						}}
-					/>
+					<div className="username">
+						Username:
+						<input
+							type="text"
+							onChange={(event) => {
+								setUsername(event.target.value);
+							}}
+						/>
+					</div>
+					<div className="password">
+						Password:
+						<input
+							type="password"
+							onChange={(event) => {
+								setPassword(event.target.value);
+							}}
+						/>
+					</div>
 				</label>
 				<input
 					type="submit"
@@ -56,8 +60,7 @@ export default function SignUp() {
 				/>
 				<input
 					type="submit"
-					value="Back"
-					onClick={() => navigate("/")}
+					value="Cancel"
 				/>
 			</form>
 		</div>
