@@ -4,10 +4,9 @@ const cors = require("cors");
 const db = require("./database.cjs");
 const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
-const swaggerUi = require('swagger-ui-express');
-YAML = require('yamljs');
-const swaggerDocument = YAML.load('swagger.yaml');
-
+const swaggerUi = require("swagger-ui-express");
+YAML = require("yamljs");
+const swaggerDocument = YAML.load("swagger.yaml");
 
 dotenv.config();
 
@@ -29,7 +28,7 @@ function authenticateToken(req, res, next) {
 	});
 }
 
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(express.json());
 
@@ -78,6 +77,19 @@ app.post("/currencies", authenticateToken, (req, res) => {
 	});
 });
 
+// delete a currency
+app.delete("/currencies/:id", authenticateToken, (req, res) => {
+	const sql = "delete from currencies where id = ?";
+	const params = [req.params.id];
+	db.all(sql, params, (err) => {
+		if (err) {
+			res.status(400).json({ error: err.message });
+			return;
+		}
+		res.status(204).json({ message: "Currency deleted" });
+	});
+});
+
 // Users
 
 // create a new user
@@ -101,10 +113,8 @@ app.post("/users/login", (req, res) => {
 	db.all(sql, params, (err, rows) => {
 		if (err) {
 			res.status(400).json({ error: err.message });
-
 		} else if (rows.length === 0) {
 			res.status(400).json({ error: "User not found" });
-
 		} else {
 			res.json({
 				message: "success",
@@ -114,7 +124,6 @@ app.post("/users/login", (req, res) => {
 		}
 	});
 });
-
 
 app.listen(process.env.API_PORT, () =>
 	console.log(`http://localhost:${process.env.API_PORT}`)

@@ -43,19 +43,21 @@ function App() {
 					<SignUp />
 				</Popup>
 			</div>
-		)}
-	
+		);
+	};
+
 	const renderAdmin = () => {
 		return (
 			<div>
 				<Popup
-			trigger={<button>Add New Currency</button>}
-			position="bottom left"
-		>
-			<CreateCurrency />
-		</Popup>
-		</div>
-		)}
+					trigger={<button>Add New Currency</button>}
+					position="bottom left"
+				>
+					<CreateCurrency />
+				</Popup>
+			</div>
+		);
+	};
 
 	return (
 		<div className="App">
@@ -71,9 +73,11 @@ function App() {
 				{currencies.map((currency) => (
 					<Currency
 						key={currency.id}
+						id={currency.id}
 						name={currency.name}
 						bid={currency.bid}
 						ask={currency.ask}
+						isAdmin={isAdmin}
 					/>
 				))}
 			</div>
