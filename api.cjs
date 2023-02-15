@@ -68,11 +68,31 @@ app.post("/currencies", authenticateToken, (req, res) => {
 	const params = [req.body.name, req.body.bid, req.body.ask];
 	db.all(sql, params, (err) => {
 		if (err) {
-			res.status(400).json({ error: err.message });
+			res.status(400).json({error: err.message});
 			return;
 		}
 		res.status(201).json({
 			message: `Currency '${req.body.name}' created`,
+		});
+	});
+});
+
+// update a currency
+app.put("/currencies/:id", authenticateToken, (req, res) => {
+	// check that data is given
+	if (!req.body.name || !req.body.bid || !req.body.ask) {
+		res.status(400).json({error: "Missing data"});
+		return;
+	}
+	const sql = "update currencies set name = ?, bid = ?, ask = ? where id = ?";
+	const params = [req.body.name, req.body.bid, req.body.ask, req.params.id];
+	db.all(sql, params, (err) => {
+		if (err) {
+			res.status(400).json({error: err.message});
+			return;
+		}
+		res.status(200).json({
+			message: `Currency '${req.body.name}' updated`,
 		});
 	});
 });
@@ -83,7 +103,7 @@ app.delete("/currencies/:id", authenticateToken, (req, res) => {
 	const params = [req.params.id];
 	db.all(sql, params, (err) => {
 		if (err) {
-			res.status(400).json({ error: err.message });
+			res.status(400).json({error: err.message});
 			return;
 		}
 		res.status(204).json({ message: "Currency deleted" });

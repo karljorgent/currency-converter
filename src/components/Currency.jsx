@@ -1,8 +1,10 @@
 import React from "react";
+import Popup from "reactjs-popup";
+import EditCurrency from "./EditCurrency";
 
 export default function Currency(props) {
 	const handleDelete = () => {
-		if (confirm("Are you sure you want to delete this currency?") == true) {
+		if (confirm("Are you sure you want to delete this currency?")) {
 			const options = {
 				method: "DELETE",
 				headers: {
@@ -21,15 +23,30 @@ export default function Currency(props) {
 			);
 		}
 	};
+
 	return (
 		<div>
 			<h2>{props.name}</h2>
 			<p>Bid: {props.bid}</p>
 			<p>Ask: {props.ask}</p>
 			{props.isAdmin ? (
-				<button type="submit" onClick={() => handleDelete()}>
-					Delete
-				</button>
+				<div>
+					<button type="submit" onClick={() => handleDelete()}>
+						Delete
+					</button>
+					<Popup
+						trigger={<button>Edit</button>}
+						position="bottom left"
+					>
+						<EditCurrency
+							key={props.id}
+							id={props.id}
+							name={props.name}
+							bid={props.bid}
+							ask={props.ask}
+						/>
+					</Popup>
+				</div>
 			) : null}
 		</div>
 	);
